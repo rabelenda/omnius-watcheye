@@ -1,0 +1,9 @@
+{
+  "type":"jmx",
+  "metricName":"test",
+  "pollPeriod":"PT5S",
+  "host": "localhost",
+  "port": 2099,
+  "mbeanPath" : "com.omnius.watcheye.test:service=testBean",
+  "mbeanAttribute" : "SimpleAttribute"
+}
