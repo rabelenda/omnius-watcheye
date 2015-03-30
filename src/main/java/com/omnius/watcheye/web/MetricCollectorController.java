@@ -5,7 +5,6 @@ import com.omnius.watcheye.domain.MetricRepository;
 import com.omnius.watcheye.domain.collectors.MetricCollector;
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +49,6 @@ public class MetricCollectorController {
   @ExceptionHandler(IllegalArgumentException.class)
   void handleBadRequests(HttpServletResponse response) throws IOException {
     response.sendError(HttpStatus.BAD_REQUEST.value());
-  }
-
-  @RequestMapping(value = "/collectors", method = RequestMethod.GET)
-  public List<MetricCollector> getMetricCollectors() {
-    return collectorRepository.getMetricCollectors();
   }
 
 }

@@ -65,15 +65,6 @@ public class OmniusWatcheyeIT {
     Thread.sleep(5000);
   }
 
-  @Test
-  public void shouldGetBadRequestResponseWhenCreateJmxCollectorWithInvalidPort()
-      throws IOException, InterruptedException {
-    ResponseEntity<String> response =
-        createCollector(getJsonStringFromFile("/jmxMetricCollectorWithInvalidPort.json"));
-
-    assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
-  }
-
   private String getJsonStringFromFile(String fileName) throws IOException {
     try (FileReader reader = new FileReader(getClass().getResource(fileName).getFile())) {
       return CharStreams.toString(reader);
@@ -86,6 +77,15 @@ public class OmniusWatcheyeIT {
     return restTemplate.postForEntity(appUrl + OMNIUS_WATCHEYE_COLLECTORS_PATH,
                                       new HttpEntity<>(collectorJson, headers),
                                       String.class);
+  }
+
+  @Test
+  public void shouldGetBadRequestResponseWhenCreateJmxCollectorWithInvalidPort()
+      throws IOException, InterruptedException {
+    ResponseEntity<String> response =
+        createCollector(getJsonStringFromFile("/jmxMetricCollectorWithInvalidPort.json"));
+
+    assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
   }
 
 }

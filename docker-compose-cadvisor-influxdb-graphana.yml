@@ -1,0 +1,45 @@
+influxdb:
+  image: tutum/influxdb
+  ports:
+   - "8086:8086"
+   - "8083:8083"
+  environment:
+   - PRE_CREATE_DB=cadvisor
+cadvisor:
+  image: tifayuki/cadvisor
+  ports:
+   - "8080:8080"
+  links:
+   - influxdb:influxdb
+  environment:
+   - DB_NAME=cadvisor
+   - DB_USER=root
+   - DB_PASS=root
+  volumes:
+   - /var/run:/var/run
+   - /sys/fs/cgroup/:/sys/fs/cgroup/
+   - /var/lib/docker/:/var/lib/docker/
+elasticsearch:
+  image: tutum/elasticsearch
+  ports:
+   - "9200:9200"
+  environment:
+   - ELASTICSEARCH_USER=admin
+   - ELASTICSEARCH_PASS=password
+grafana:
+  image: tutum/grafana
+  ports:
+   - "80:80"
+  links:
+   - influxdb:INFLUXDB
+   - elasticsearch:ELASTICSEARCH
+  environment:
+   - HTTP_USER=admin
+   - HTTP_PASS=admin
+   - INFLUXDB_HOST=docker
+   - INFLUXDB_NAME=cadvisor
+   - INFLUXDB_USER=root
+   - INFLUXDB_PASS=root
+   - ELASTICSEARCH_HOST=docker
+   - ELASTICSEARCH_USER=admin
+   - ELASTICSEARCH_PASS=password
